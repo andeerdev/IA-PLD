@@ -145,6 +145,7 @@ def montar_contexto_caso(cliente_id, linha_ranking):
     partes.append("Investigue o caso com as ferramentas que julgar necessárias e emita o parecer.")
     return "\n".join(partes)
 
+
 def chamar_com_retry(funcao, max_tentativas=4, espera_inicial=5):
     """Executa uma chamada à API com retry exponencial.
 
@@ -167,6 +168,7 @@ def chamar_com_retry(funcao, max_tentativas=4, espera_inicial=5):
             else:
                 raise
 
+
 def analisar_cliente(cliente_id, linha_ranking):
     """Executa o agente sobre um cliente e devolve o parecer com metadados."""
     tools.limpar_log_chamadas()
@@ -174,7 +176,7 @@ def analisar_cliente(cliente_id, linha_ranking):
     contexto = montar_contexto_caso(cliente_id, linha_ranking)
 
     chat = client.chats.create(
-        model='gemini-3.6-flash',
+        model='gemini-3.5-flash-lite',
         config=types.GenerateContentConfig(
             system_instruction=INSTRUCAO_SISTEMA,
             tools=[historico_cliente, operacoes_do_dia, perfil_canal],
@@ -198,12 +200,113 @@ def analisar_cliente(cliente_id, linha_ranking):
     }
 
 
-# Teste com um único cliente antes de rodar o lote
-if __name__ == '__main__':
-    cliente_teste = top10.index[0]
-    resultado = analisar_cliente(cliente_teste, top10.loc[cliente_teste])
+def parse_parecer(texto):
+    """Extrai o JSON do parecer, tratando marcação markdown e respostas malformadas."""
+    texto_limpo = texto.strip()
 
-    print(f"\n--- Agente: {cliente_teste} ---")
-    print(f"Ferramentas chamadas: {resultado['ferramentas_chamadas']}")
-    print(f"Latência: {resultado['latencia_s']}s | Tokens: {resultado['tokens_total']}")
-    print(f"\nParecer:\n{resultado['resposta_bruta']}")
+    if texto_limpo.startswith('```'):
+        texto_limpo = texto_limpo.split('```')[1]
+        if texto_limpo.startswith('json'):
+            texto_limpo = texto_limpo[4:]
+        texto_limpo = texto_limpo.strip()
+
+    try:
+        parecer = json.loads(texto_limpo)
+        campos = {'nivel_risco', 'tipologia_suspeita', 'red_flags', 'justificativa'}
+        if not campos.issubset(parecer.keys()):
+            return {'erro': f'Campos ausentes: {campos - parecer.keys()}', 'resposta_bruta': texto}
+        return parecer
+    except json.JSONDecodeError as e:
+        return {'erro': f'JSON malformado: {e}', 'resposta_bruta': texto}
+
+
+def executar_lote(top10, pausa_entre_clientes=3):
+    """Roda o agente sobre todos os clientes do ranking, com registro de custo e latência."""
+    resultados = []
+
+    for posicao, (cliente_id, linha) in enumerate(top10.iterrows(), start=1):
+        print(f"\n[{posicao}/{len(top10)}] Analisando {cliente_id}...")
+
+        try:
+            resultado = analisar_cliente(cliente_id, linha)
+            parecer = parse_parecer(resultado['resposta_bruta'])
+
+            registro = {
+                'cliente_id': cliente_id,
+                'eventos_fracionamento': int(linha['eventos_fracionamento']),
+                'eventos_valor_atipico': int(linha['eventos_valor_atipico']),
+                'total_sinalizacoes': int(linha['total_sinalizacoes']),
+                'volume_total_brl': round(float(linha['volume_total']), 2),
+                'ferramentas_chamadas': [c['ferramenta'] for c in resultado['ferramentas_chamadas']],
+                'qtd_ferramentas_chamadas': len(resultado['ferramentas_chamadas']),
+                'latencia_s': resultado['latencia_s'],
+                'tokens_entrada': resultado['tokens_entrada'],
+                'tokens_saida': resultado['tokens_saida'],
+                'tokens_total': resultado['tokens_total'],
+                'parecer': parecer,
+            }
+
+            print(f"  Ferramentas: {registro['ferramentas_chamadas']}")
+            print(f"  Risco: {parecer.get('nivel_risco', 'ERRO')} | "
+                  f"{resultado['latencia_s']}s | {resultado['tokens_total']} tokens")
+
+        except Exception as e:
+            print(f"  FALHA: {type(e).__name__}: {e}")
+            registro = {
+                'cliente_id': cliente_id,
+                'erro': f'{type(e).__name__}: {e}',
+            }
+
+        resultados.append(registro)
+
+        # Pausa entre clientes para não saturar o rate limit do free tier
+        if posicao < len(top10):
+            time.sleep(pausa_entre_clientes)
+
+    return resultados
+
+
+if __name__ == '__main__':
+    resultados = executar_lote(top10)
+
+    # Salva o resultado completo, um registro por cliente
+    os.makedirs('outputs', exist_ok=True)
+    caminho_json = 'outputs/pareceres_nivel_2.json'
+    with open(caminho_json, 'w', encoding='utf-8') as f:
+        json.dump(resultados, f, ensure_ascii=False, indent=2)
+    print(f"\nPareceres salvos em {caminho_json}")
+
+    # --- Análise de custo e latência com pandas ---
+    metricas = pd.DataFrame([
+        {
+            'cliente_id': r['cliente_id'],
+            'nivel_risco': r['parecer'].get('nivel_risco', 'erro'),
+            'qtd_ferramentas': r['qtd_ferramentas_chamadas'],
+            'latencia_s': r['latencia_s'],
+            'tokens_entrada': r['tokens_entrada'],
+            'tokens_saida': r['tokens_saida'],
+            'tokens_total': r['tokens_total'],
+        }
+        for r in resultados if 'erro' not in r
+    ])
+
+    caminho_csv = 'outputs/metricas_nivel_2.csv'
+    metricas.to_csv(caminho_csv, index=False)
+    print(f"Métricas salvas em {caminho_csv}")
+
+    print("\n--- Métricas do lote ---")
+    print(metricas.to_string(index=False))
+
+    print("\n--- Totais e médias ---")
+    print(f"Clientes processados:     {len(metricas)} de {len(top10)}")
+    print(f"Tokens totais:            {metricas['tokens_total'].sum():,}")
+    print(f"Tokens médios por cliente:{metricas['tokens_total'].mean():>10.1f}")
+    print(f"Latência total:           {metricas['latencia_s'].sum():.2f}s")
+    print(f"Latência média:           {metricas['latencia_s'].mean():.2f}s")
+    print(f"Latência mín / máx:       {metricas['latencia_s'].min():.2f}s / {metricas['latencia_s'].max():.2f}s")
+
+    print("\n--- Distribuição de risco ---")
+    print(metricas['nivel_risco'].value_counts().to_string())
+
+    print("\n--- Ferramentas por cliente ---")
+    print(metricas['qtd_ferramentas'].value_counts().sort_index().to_string())

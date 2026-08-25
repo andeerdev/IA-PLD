@@ -1,0 +1,11 @@
+cliente_id,nivel_risco,qtd_ferramentas,latencia_s,tokens_entrada,tokens_saida,tokens_total
+CLI-014,medio,1,2.58,993,224,1217
+CLI-023,medio,2,2.41,1216,207,1423
+CLI-028,baixo,2,2.75,1208,202,1410
+CLI-013,baixo,2,17.9,1235,178,1413
+CLI-005,medio,2,2.75,1245,262,1507
+CLI-026,medio,2,2.55,1247,240,1487
+CLI-001,medio,3,3.75,1431,243,1674
+CLI-029,medio,2,3.34,1427,306,1733
+CLI-017,medio,2,39.47,1422,316,1738
+CLI-030,baixo,3,3.27,1516,207,1723

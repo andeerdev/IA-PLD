@@ -1,0 +1,252 @@
+[
+  {
+    "cliente_id": "CLI-014",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 3,
+    "total_sinalizacoes": 3,
+    "volume_total_brl": 80629.99,
+    "ferramentas_chamadas": [
+      "historico_cliente"
+    ],
+    "qtd_ferramentas_chamadas": 1,
+    "latencia_s": 2.58,
+    "tokens_entrada": 993,
+    "tokens_saida": 224,
+    "tokens_total": 1217,
+    "parecer": {
+      "nivel_risco": "medio",
+      "tipologia_suspeita": "Movimentação atípica sem fundamentação econômica aparente",
+      "red_flags": [
+        "Operações significativamente acima da mediana histórica do cliente (acima de 5x)",
+        "Presença de operações de saque e pagamento de valores elevados em comparação ao padrão habitual"
+      ],
+      "justificativa": "O cliente CLI-014 apresentou 3 operações sinalizadas pela Regra 2 por ultrapassarem 5 vezes a sua mediana histórica (mediana de R$ 2.308,41, enquanto a maior operação atingiu R$ 23.640,97). Embora o volume total e a quantidade de operações sejam moderados (11 operações totalizando R$ 80.629,99), a concentração de valores atípicos justifica a classificação de risco médio para monitoramento e checagem de comprovação de renda/origem dos recursos."
+    }
+  },
+  {
+    "cliente_id": "CLI-023",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 2,
+    "total_sinalizacoes": 2,
+    "volume_total_brl": 148535.02,
+    "ferramentas_chamadas": [
+      "historico_cliente",
+      "perfil_canal"
+    ],
+    "qtd_ferramentas_chamadas": 2,
+    "latencia_s": 2.41,
+    "tokens_entrada": 1216,
+    "tokens_saida": 207,
+    "tokens_total": 1423,
+    "parecer": {
+      "nivel_risco": "medio",
+      "tipologia_suspeita": "Movimentação atípica em espécie e valor incompatível com o padrão histórico",
+      "red_flags": [
+        "Operação de valor atípico superior a 5x a mediana do cliente",
+        "Uso relevante de canal de maior risco (espécie) concentrando valor expressivo"
+      ],
+      "justificativa": "O cliente CLI-023 foi sinalizado por apresentar operações significativamente acima de sua mediana (valor mediano de R$ 3.241,16, com picos de até R$ 65.417,17). Embora a maior parte das operações ocorra via TED e boletos com valores moderados, a identificação de transações em espécie com volumes elevados e atípicos justifica a classificação de risco médio para monitoramento contínuo de lavagem de dinheiro."
+    }
+  },
+  {
+    "cliente_id": "CLI-028",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 2,
+    "total_sinalizacoes": 2,
+    "volume_total_brl": 88750.8,
+    "ferramentas_chamadas": [
+      "historico_cliente",
+      "perfil_canal"
+    ],
+    "qtd_ferramentas_chamadas": 2,
+    "latencia_s": 2.75,
+    "tokens_entrada": 1208,
+    "tokens_saida": 202,
+    "tokens_total": 1410,
+    "parecer": {
+      "nivel_risco": "baixo",
+      "tipologia_suspeita": "Nenhuma tipologia conclusiva identificada",
+      "red_flags": [
+        "Operações pontuais acima de 5x a mediana do próprio cliente"
+      ],
+      "justificativa": "O cliente CLI-028 apresenta um histórico de apenas 12 operações totalizando R$ 88.750,80, com mediana de R$ 4.430,25. A sinalização ocorreu por duas operações com valores atípicos em relação à mediana, mas consistentes com a faixa de movimentação geral do cliente (maior operação de R$ 27.715,48), utilizando canais tradicionais (TED e cartão) e sem indícios de fracionamento ou concentração em espécie. O perfil transacional não demonstra características típicas de lavagem de dinheiro."
+    }
+  },
+  {
+    "cliente_id": "CLI-013",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 2,
+    "total_sinalizacoes": 2,
+    "volume_total_brl": 81730.99,
+    "ferramentas_chamadas": [
+      "historico_cliente",
+      "perfil_canal"
+    ],
+    "qtd_ferramentas_chamadas": 2,
+    "latencia_s": 17.9,
+    "tokens_entrada": 1235,
+    "tokens_saida": 178,
+    "tokens_total": 1413,
+    "parecer": {
+      "nivel_risco": "baixo",
+      "tipologia_suspeita": "Nenhuma tipologia conclusiva identificada",
+      "red_flags": [
+        "Operações com valor superior a 5x a mediana histórica do cliente (Regra 2)"
+      ],
+      "justificativa": "O cliente CLI-013 apresentou apenas duas operações sinalizadas por valor atípico em relação à sua mediana. Com um histórico total de 10 operações e volume de R$ 81.730,99 distribuídos de forma variada em diferentes canais (com predominância de PIX e TED), os valores elevados pontuais não se mostram suficientes para configurar indícios claros de lavagem de dinheiro, podendo refletir necessidades sazonais ou pontuais legítimas."
+    }
+  },
+  {
+    "cliente_id": "CLI-005",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 2,
+    "total_sinalizacoes": 2,
+    "volume_total_brl": 64742.66,
+    "ferramentas_chamadas": [
+      "historico_cliente",
+      "perfil_canal"
+    ],
+    "qtd_ferramentas_chamadas": 2,
+    "latencia_s": 2.75,
+    "tokens_entrada": 1245,
+    "tokens_saida": 262,
+    "tokens_total": 1507,
+    "parecer": {
+      "nivel_risco": "medio",
+      "tipologia_suspeita": "Movimentação atípica em relação ao padrão histórico",
+      "red_flags": [
+        "Operações com valor superior a 5x a mediana histórica do cliente (maior operação de R$ 30.743,97 frente a uma mediana de R$ 2.144,18)",
+        "Utilização de canais de maior risco e opacidade, como cartões e espécie, concentrando volumes expressivos em relação ao total"
+      ],
+      "justificativa": "O cliente CLI-005 foi sinalizado por apresentar operações significativamente acima da sua mediana histórica (mediana de R$ 2.144,18 e operações chegando a mais de R$ 30 mil). Embora o volume total movimentado seja moderado (cerca de R$ 64,7 mil em 11 operações) e haja diversificação de contrapartes, a concentração em canais como espécie e cartão em transações de alto valor destoa do perfil habitual, exigindo monitoramento mas sem evidências contundentes de ilicitude no momento."
+    }
+  },
+  {
+    "cliente_id": "CLI-026",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 2,
+    "total_sinalizacoes": 2,
+    "volume_total_brl": 54729.28,
+    "ferramentas_chamadas": [
+      "historico_cliente",
+      "perfil_canal"
+    ],
+    "qtd_ferramentas_chamadas": 2,
+    "latencia_s": 2.55,
+    "tokens_entrada": 1247,
+    "tokens_saida": 240,
+    "tokens_total": 1487,
+    "parecer": {
+      "nivel_risco": "medio",
+      "tipologia_suspeita": "Uso atípico de canais físicos e movimentação desalinhada com o padrão histórico",
+      "red_flags": [
+        "Operações com valores superiores a 5x a mediana histórica do cliente",
+        "Uso relevante do canal espécie, que representa 41.7% das operações"
+      ],
+      "justificativa": "O cliente CLI-026 apresentou 2 operações sinalizadas por valor atípico (acima de 5x a sua mediana de R$ 2.032,93, com maior operação atingindo R$ 21.261,01). Embora o volume total movimentado seja moderado (R$ 54.729,28 em 12 operações) e haja diversificação de contrapartes, a concentração significativa de operações no canal espécie (41,7%) combinada com picos de valor atípico justifica a classificação de risco médio para monitoramento de prevenção à lavagem de dinheiro."
+    }
+  },
+  {
+    "cliente_id": "CLI-001",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 2,
+    "total_sinalizacoes": 2,
+    "volume_total_brl": 47947.81,
+    "ferramentas_chamadas": [
+      "historico_cliente",
+      "operacoes_do_dia",
+      "perfil_canal"
+    ],
+    "qtd_ferramentas_chamadas": 3,
+    "latencia_s": 3.75,
+    "tokens_entrada": 1431,
+    "tokens_saida": 243,
+    "tokens_total": 1674,
+    "parecer": {
+      "nivel_risco": "medio",
+      "tipologia_suspeita": "Movimentacao atipica e uso inconsistente de canais",
+      "red_flags": [
+        "Operacoes com valores significativamente acima da mediana historica do cliente",
+        "Uso de canal de especie para transacao de alto valor (R$ 25.110,15)",
+        "Variedade de contrapartes sem padrao claro de atividade economica"
+      ],
+      "justificativa": "O cliente CLI-001 foi sinalizado pela Regra 2 devido a operacoes com valores superiores a 5x sua mediana (mediana de R$ 1.609,15). A investigacao revelou que o cliente realizou operacoes de maior expressao, incluindo uma transacao em especie de R$ 25.110,15 (que representa mais da metade do volume total movimentado), o que foge ao perfil transacional predominante e indica risco moderado para PLD devido ao uso de dinheiro em especie em valor elevado."
+    }
+  },
+  {
+    "cliente_id": "CLI-029",
+    "eventos_fracionamento": 1,
+    "eventos_valor_atipico": 0,
+    "total_sinalizacoes": 1,
+    "volume_total_brl": 191385.77,
+    "ferramentas_chamadas": [
+      "operacoes_do_dia",
+      "historico_cliente"
+    ],
+    "qtd_ferramentas_chamadas": 2,
+    "latencia_s": 3.34,
+    "tokens_entrada": 1427,
+    "tokens_saida": 306,
+    "tokens_total": 1733,
+    "parecer": {
+      "nivel_risco": "medio",
+      "tipologia_suspeita": "Fracionamento de Operações (Smurfing / Evitação de Limites)",
+      "red_flags": [
+        "Realização de múltiplas operações no mesmo dia (4 operações) somando mais de R$ 71.000,00",
+        "Nenhuma operação individualmente ultrapassou o limite de R$ 20.000,00 (maior valor de R$ 19.418,96), caracterizando potencial tentativa de burlar controles ou limites de reporte"
+      ],
+      "justificativa": "O cliente CLI-029 foi sinalizado por concentrar 4 transações no dia 26/05/2026 totalizando R$ 71.297,68, mantendo cada operação individual abaixo do patamar de R$ 20.000,00 (valores variando entre R$ 14.326,29 e R$ 19.418,96). Embora o fracionamento em um único dia observável e a diversidade de contrapartes possam indicar um comportamento comercial atípico ou pontual, o padrão é característico de evitação de controles e justifica um nível de risco médio com necessidade de monitoramento contínuo."
+    }
+  },
+  {
+    "cliente_id": "CLI-017",
+    "eventos_fracionamento": 1,
+    "eventos_valor_atipico": 0,
+    "total_sinalizacoes": 1,
+    "volume_total_brl": 121391.37,
+    "ferramentas_chamadas": [
+      "operacoes_do_dia",
+      "historico_cliente"
+    ],
+    "qtd_ferramentas_chamadas": 2,
+    "latencia_s": 39.47,
+    "tokens_entrada": 1422,
+    "tokens_saida": 316,
+    "tokens_total": 1738,
+    "parecer": {
+      "nivel_risco": "medio",
+      "tipologia_suspeita": "Fracionamento de operações para burlar limites de monitoramento (Smurfing)",
+      "red_flags": [
+        "Realização de 4 operações no mesmo dia (2026-03-08) totalizando R$ 64.673,88",
+        "Nenhuma das operações individuais do dia atingiu o patamar de R$ 20.000 (maior valor de R$ 18.761,22)",
+        "Concentração de movimentação financeira fracionada em canais distintos (TED e PIX) com diferentes contrapartes em um único dia"
+      ],
+      "justificativa": "O cliente CLI-017 foi sinalizado por realizar 4 operações em um único dia (2026-03-08) que, somadas, ultrapassam R$ 64 mil, sem que nenhuma operação individual supere R$ 20 mil. Essa dinâmica sugere uma tentativa intencional de evitar controles automáticos de monitoramento por valor limite (estruturação ou fracionamento). Embora o histórico geral apresente operações de diversos valores e tipos, o comportamento verificado no dia da infração preenche os critérios da tipologia de fracionamento, justificando uma classificação de risco médio para averiguação mais detalhada da origem e destino dos recursos."
+    }
+  },
+  {
+    "cliente_id": "CLI-030",
+    "eventos_fracionamento": 0,
+    "eventos_valor_atipico": 1,
+    "total_sinalizacoes": 1,
+    "volume_total_brl": 117780.89,
+    "ferramentas_chamadas": [
+      "historico_cliente",
+      "perfil_canal",
+      "operacoes_do_dia"
+    ],
+    "qtd_ferramentas_chamadas": 3,
+    "latencia_s": 3.27,
+    "tokens_entrada": 1516,
+    "tokens_saida": 207,
+    "tokens_total": 1723,
+    "parecer": {
+      "nivel_risco": "baixo",
+      "tipologia_suspeita": "Nenhuma tipologia conclusiva",
+      "red_flags": [
+        "Operação única com valor significativamente superior à mediana do cliente (acima de 5x a mediana)"
+      ],
+      "justificativa": "O cliente CLI-030 possui histórico com 9 operações e um volume total moderado (R$ 117.780,89). A sinalização ocorreu por conta de uma única operação atípica (maior operação de R$ 77.628,19 frente a uma mediana de R$ 4.611,07). A investigação não apontou outros indícios de comportamentos suspeitos, como estruturação, fracionamento ou concentração em canais de alto risco como espécie, sugerindo que o evento pode ser justificado por uma transação pontual legítima."
+    }
+  }
+]
