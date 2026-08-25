@@ -18,7 +18,11 @@ A solução combina **regras determinísticas** (cálculo, em pandas) com **um m
 │   ├── tools.py                # ferramentas de consulta à base
 │   ├── agente.py               # regras em escala + agente + execução em lote
 │   └── confronto.py            # comparação entre regra e parecer do agente
-├── outputs/                    # resultados das execuções
+├── nivel_3/
+│   ├── contexto.py             # dados e regras para a interface
+│   ├── ferramentas.py          # ferramentas expostas ao agente conversacional
+│   └── app.py                  # interface Streamlit
+├── outputs/                    # resultados das execuções e prints da interface
 └── docs/
     ├── DECISOES.md             # trade-offs, limitações e o que faria diferente
     └── USO_DE_IA.md
@@ -51,6 +55,14 @@ python nivel_2/confronto.py   # compara regra vs. agente (lê os pareceres salvo
 
 O `agente.py` mantém um cache em `outputs/cache_pareceres.json`. Execuções repetidas reaproveitam os pareceres já gerados, sem consumir quota da API. Para forçar reprocessamento, apague o arquivo de cache.
 
+**Nível 3** — interface conversacional:
+
+```bash
+streamlit run nivel_3/app.py
+```
+
+Abre uma mesa de triagem onde o analista conversa sobre os clientes sinalizados. A barra lateral traz o veredito das regras; a conversa traz o julgamento do agente.
+
 ## Saídas geradas
 
 | Arquivo | Conteúdo |
@@ -65,7 +77,7 @@ O `agente.py` mantém um cache em `outputs/cache_pareceres.json`. Execuções re
 
 **Nível 2 — escala, ferramentas e confronto.** As mesmas regras sobre 317 operações e 30 clientes, ranking dos 10 clientes mais sinalizados, três ferramentas de consulta, um agente com function calling que decide quais ferramentas usar, execução em lote com registro de custo e latência, e o confronto entre regra e modelo.
 
-**Nível 3** — não implementado. O plano está em `docs/DECISOES.md`.
+**Nível 3 — Trilha C: interface conversacional.** App em Streamlit com memória de conversa, quatro ferramentas de consulta (incluindo `comparar_clientes`, que não existe no Nível 2) e trilha de auditoria mostrando quais ferramentas o agente consultou em cada resposta. A barra lateral carimba o risco implicado pelas regras, colocando o confronto da Parte D na tela. Prints em `outputs/`.
 
 ## Principais conclusões
 
@@ -76,6 +88,10 @@ O `agente.py` mantém um cache em `outputs/cache_pareceres.json`. Execuções re
 **O agente tem viés de calibragem para baixo.** Em 10 casos, ele nunca atribuiu risco alto — apenas "medio" (7) e "baixo" (3). Todas as 4 divergências com as regras apontam na mesma direção: agente mais brando. Em dois casos de fracionamento, o parecer chega a reconhecer "tentativa intencional de evitar controles" e ainda assim classifica como risco médio — o raciocínio e o veredito não se sustentam mutuamente.
 
 **Taxa de concordância entre regra e agente: 60%** (6 de 10). A análise das divergências está em `docs/DECISOES.md`.
+
+**O viés de calibragem se repete entre modelos.** O Nível 3 usa um modelo diferente do Nível 2 e apresentou o mesmo comportamento: ao gerar o parecer de um caso de fracionamento, identificou smurfing, recomendou bloqueio cautelar — e classificou como "Médio-Alto", uma categoria que sequer existe na escala pedida. Dois modelos, mesmo viés, mesma instrução de sistema sem critério explícito de escalação.
+
+**O modelo preenche lacunas com invenção.** No mesmo parecer, afirmou que uma data seria "a data da abertura da conta" — campo que não existe na base e que nenhuma ferramenta retorna. Mesmo instruído a interpretar apenas o que as ferramentas fornecem, completou uma informação ausente e a apresentou como fato.
 
 ## Observações técnicas
 

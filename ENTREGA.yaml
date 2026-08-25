@@ -1,7 +1,7 @@
 candidato: Anderson Freitas
-modelo_usado: gemini-3.6-flash (nível 1) / gemini-3.5-flash-lite (nível 2)
+modelo_usado: gemini-3.6-flash (nível 1) / gemini-3.5-flash-lite (nível 2) / gemini-3.1-flash-lite (nível 3)
 provedor: google-ai-studio
-horas_dedicadas: 5
+horas_dedicadas: 6
 
 nivel_1:
   limpeza_dados:      {status: completo, onde: "nivel_1/nivel_1.ipynb, células 5-8 (identificação) e célula 14 (documentação completa)"}
@@ -18,6 +18,7 @@ nivel_2:
   confronto:        {status: completo, onde: "nivel_2/confronto.py e outputs/confronto_nivel_2.csv"}
 
 nivel_3:
-  trilha_escolhida: <ainda não decidido>
-  status: nao_feito
-  plano: "docs/DECISOES.md#nivel-3"
+  trilha_escolhida: C
+  status: completo
+  onde: "nivel_3/app.py (interface), nivel_3/contexto.py, nivel_3/ferramentas.py, prints em outputs/"
+  nota: "Interface Streamlit com memória de conversa via session_state e quatro ferramentas. Entregue com prints."
