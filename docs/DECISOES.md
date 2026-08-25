@@ -113,10 +113,14 @@ Acabei em **`gemini-3.5-flash-lite`**, validado com uma chamada mínima antes de
 
 **Trade-off assumido:** Flash-Lite é um modelo mais leve que o Flash. Aceitei perda potencial de qualidade nos pareceres em troca de conseguir rodar o lote completo. Na prática o resultado foi melhor do que eu esperava: nenhum erro de leitura numérica, nenhuma confusão de moeda, e nenhuma resposta malformada em 10 execuções. Registro que o Nível 1 usou `gemini-3.6-flash` e o Nível 2 usou `gemini-3.5-flash-lite`, os pareceres dos dois níveis não são diretamente comparáveis por isso.
 
-### Cache de pareceres
-Depois de esgotar a quota, implementei cache em disco (`outputs/cache_pareceres.json`) gravado a cada cliente processado, não apenas ao final do lote. Se a execução for interrompida no cliente 6, os 5 anteriores ficam salvos e a próxima execução só processa os restantes.
+### Cache de pareceres: não implementado
+O enunciado sugere cachear respostas para lidar com o limite de requisições do free tier. Não implementei, priorizei fechar as partes pontuadas dentro do prazo.
 
-Isso também protege a Parte D: o `confronto.py` lê os pareceres do JSON salvo em vez de re-executar o agente, então ajustar a análise de divergências não consome quota.
+As mitigações que adotei foram pausa de 3 segundos entre clientes no lote e retry com backoff exponencial. Elas resolvem instabilidade momentânea, mas não o limite diário: quando a quota do modelo se esgotou, a única saída foi trocar de modelo.
+
+O `confronto.py` acabou funcionando como um cache parcial não intencional: ele lê os pareceres de `outputs/pareceres_nivel_2.json` em vez de reexecutar o agente, então ajustar a análise de divergências não consome quota.
+
+**O que faria com mais tempo:** cache em disco com chave derivada de `(cliente_id, hash do contexto, modelo)`, gravado a cada cliente processado e não ao final do lote — assim uma interrupção no cliente 6 preservaria os 5 anteriores. Validaria rodando o lote duas vezes seguidas: a segunda deveria ter latência próxima de zero e nenhum incremento de tokens.
 
 ## Nível 2 — Execução em lote
 

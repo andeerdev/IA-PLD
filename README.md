@@ -53,8 +53,6 @@ python nivel_2/agente.py      # roda as regras, o ranking e o lote de 10 cliente
 python nivel_2/confronto.py   # compara regra vs. agente (lê os pareceres salvos)
 ```
 
-O `agente.py` mantém um cache em `outputs/cache_pareceres.json`. Execuções repetidas reaproveitam os pareceres já gerados, sem consumir quota da API. Para forçar reprocessamento, apague o arquivo de cache.
-
 **Nível 3** — interface conversacional:
 
 ```bash
@@ -70,6 +68,9 @@ Abre uma mesa de triagem onde o analista conversa sobre os clientes sinalizados.
 | `outputs/pareceres_nivel_2.json` | Um registro por cliente: flags das regras, ferramentas chamadas, custo, latência e o parecer estruturado |
 | `outputs/metricas_nivel_2.csv` | Métricas de custo e latência por cliente |
 | `outputs/confronto_nivel_2.csv` | Comparação entre o risco implicado pelas regras e o atribuído pelo agente |
+| `outputs/nivel_3_explicacao_caso.png` | Interface do Nível 3: explicação de um caso de fracionamento |
+| `outputs/nivel_3_comparacao_memoria.png` | Comparação entre dois clientes e pergunta de acompanhamento sem nomeá-los (memória) |
+| `outputs/nivel_3_parecer.png` | Parecer estruturado gerado pela interface |
 
 ## O que foi implementado
 
@@ -96,5 +97,5 @@ Abre uma mesa de triagem onde o analista conversa sobre os clientes sinalizados.
 ## Observações técnicas
 
 - **Function calling multiplica requisições.** Cada cliente consome uma requisição por ida e volta com o modelo, não uma no total. Isso esgotou a quota diária do `gemini-3.6-flash` (20 req/dia no free tier) antes de metade do lote.
-- **Modelos usados:** `gemini-3.6-flash` no Nível 1 e `gemini-3.5-flash-lite` no Nível 2. A troca foi forçada pelo limite de quota; os pareceres dos dois níveis não são diretamente comparáveis por isso.
+- **Modelos usados:** `gemini-3.6-flash` (Nível 1), `gemini-3.5-flash-lite` (Nível 2) e `gemini-3.1-flash-lite` (Nível 3). As trocas foram forçadas por limites de quota; os pareceres dos três níveis não são diretamente comparáveis por isso.
 - **Custo do lote:** 15.325 tokens para 10 clientes, latência total de 80,77s (média de 8,08s por cliente).
