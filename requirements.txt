@@ -1,4 +1,4 @@
 pandas
 jupyter
-google-generativeai
+google-genai
 python-dotenv
