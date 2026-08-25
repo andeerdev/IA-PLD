@@ -12,8 +12,22 @@ from dados import carregar_e_tratar
 # Carrega a base tratada uma única vez, no import do módulo
 _df, _taxa_cambio = carregar_e_tratar()
 
+# Registro de chamadas das ferramentas — permite auditar quais o agente decidiu usar
+_log_chamadas = []
 
-def historico_cliente(cliente_id):
+
+def registrar_chamada(nome_ferramenta, argumentos):
+    _log_chamadas.append({'ferramenta': nome_ferramenta, 'argumentos': argumentos})
+
+
+def obter_log_chamadas():
+    return list(_log_chamadas)
+
+
+def limpar_log_chamadas():
+    _log_chamadas.clear()
+
+def historico_cliente(cliente_id: str) -> dict:
     """Resumo agregado de todas as operações de um cliente.
 
     Args:
@@ -22,6 +36,8 @@ def historico_cliente(cliente_id):
     Returns:
         dict: métricas agregadas do cliente, ou mensagem de erro se não existir.
     """
+    registrar_chamada('historico_cliente', {'cliente_id': cliente_id})
+    
     operacoes = _df[_df['cliente_id'] == cliente_id]
 
     if operacoes.empty:
@@ -45,7 +61,7 @@ def historico_cliente(cliente_id):
         'contrapartes_distintas': int(operacoes['contraparte'].nunique()),
     }
     
-def operacoes_do_dia(cliente_id, data):
+def operacoes_do_dia(cliente_id: str, data: str) -> dict:
     """Recorte das operações de um cliente em uma data específica.
 
     Útil para investigar padrões de fracionamento, em que várias operações
@@ -58,6 +74,8 @@ def operacoes_do_dia(cliente_id, data):
     Returns:
         dict: operações daquele dia com métricas agregadas do próprio dia.
     """
+    registrar_chamada('operacoes_do_dia', {'cliente_id': cliente_id, 'data': data})
+
     operacoes = _df[(_df['cliente_id'] == cliente_id) & (_df['data'] == data)]
 
     if operacoes.empty:
@@ -90,7 +108,7 @@ def operacoes_do_dia(cliente_id, data):
         ]
     }
     
-def perfil_canal(cliente_id):
+def perfil_canal(cliente_id: str) -> dict:
     """Distribuição de uso de canais por um cliente.
 
     Útil para identificar concentração incomum em canais de maior risco
@@ -102,6 +120,8 @@ def perfil_canal(cliente_id):
     Returns:
         dict: contagem e volume por canal, com o canal predominante.
     """
+    registrar_chamada('perfil_canal', {'cliente_id': cliente_id})
+    
     operacoes = _df[_df['cliente_id'] == cliente_id]
 
     if operacoes.empty:
