@@ -1,0 +1,23 @@
+candidato: Anderson Freitas
+modelo_usado: gemini-3.6-flash
+provedor: google-ai-studio
+horas_dedicadas: 3h
+
+nivel_1:
+  limpeza_dados:      {status: completo, onde: "nivel_1/nivel_1.ipynb, células 5-8 (identificação) e célula 14 (documentação completa)"}
+  regras_pandas:      {status: completo, onde: "nivel_1/nivel_1.ipynb, células 11 (regra 1) e 13 (regra 2)"}
+  validacao_regras:   {status: completo, onde: "nivel_1/nivel_1.ipynb, célula 12"}
+  saida_estruturada:  {status: completo, onde: "nivel_1/nivel_1.ipynb, células 17-19 (prompt v1, parsing e tokens)"}
+  comparacao_prompts: {status: completo, onde: "nivel_1/nivel_1.ipynb, células 20-22 (prompt v2 e comparação)"}
+
+nivel_2:
+  regras_em_escala: {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
+  ferramentas:      {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
+  agente:           {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
+  lote:             {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
+  confronto:        {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
+
+nivel_3:
+  trilha_escolhida: <ainda não decidido>
+  status: nao_feito
+  plano: "docs/DECISOES.md#nivel-3"
