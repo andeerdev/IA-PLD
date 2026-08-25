@@ -1,7 +1,7 @@
 candidato: Anderson Freitas
-modelo_usado: gemini-3.6-flash
+modelo_usado: gemini-3.6-flash (nível 1) / gemini-3.5-flash-lite (nível 2)
 provedor: google-ai-studio
-horas_dedicadas: 3h
+horas_dedicadas: 5
 
 nivel_1:
   limpeza_dados:      {status: completo, onde: "nivel_1/nivel_1.ipynb, células 5-8 (identificação) e célula 14 (documentação completa)"}
@@ -11,11 +11,11 @@ nivel_1:
   comparacao_prompts: {status: completo, onde: "nivel_1/nivel_1.ipynb, células 20-22 (prompt v2 e comparação)"}
 
 nivel_2:
-  regras_em_escala: {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
-  ferramentas:      {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
-  agente:           {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
-  lote:             {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
-  confronto:        {status: nao_feito, plano: "docs/DECISOES.md#nivel-2"}
+  regras_em_escala: {status: completo, onde: "nivel_2/agente.py (tratamento em nivel_2/dados.py)"}
+  ferramentas:      {status: completo, onde: "nivel_2/tools.py"}
+  agente:           {status: completo, onde: "nivel_2/agente.py, função analisar_cliente"}
+  lote:             {status: completo, onde: "outputs/pareceres_nivel_2.json e outputs/metricas_nivel_2.csv"}
+  confronto:        {status: completo, onde: "nivel_2/confronto.py e outputs/confronto_nivel_2.csv"}
 
 nivel_3:
   trilha_escolhida: <ainda não decidido>
